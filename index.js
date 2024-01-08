@@ -39,7 +39,7 @@ app.use(session({
 app.use(loggerService);
 app.use(express.urlencoded({extended: true}));
 //const whitelist = ['http://localhost:3000', 'http://localhost:5000']
-const whitelist = ['https://camille-lecoq.com', 'https://accounts.google.com']
+const whitelist = ['https://camille-lecoq.com', 'https://accounts.google.com', 'https://api2.camille-lecoq.com']
 const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
