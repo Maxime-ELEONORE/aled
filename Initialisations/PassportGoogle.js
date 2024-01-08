@@ -5,7 +5,7 @@ import User from '../Models/UserModel.js';
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/api/auths/google/callback',
+  callbackURL: 'https://api2.camille-lecoq.com/api/auths/google/callback',
 },
 async (accessToken, refreshToken, profile, cb) => {
   let user = await User.findOne({googleId: profile.id});
