@@ -30,7 +30,9 @@ services:
 
 
   express-app:
-    image: tydaks/express-app-image:latest
+    build:
+      context: .
+    #image: tydaks/express-app-image:latest
     environment:
       COIN_GUEKO_API_KEY: CG-Q1bJd5mxtq8WNGxEe1cRayem
       COIN_GUEKO_API_KEY2: CG-pqaSge1zng3d43AMkrMk1Meq
