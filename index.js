@@ -42,7 +42,9 @@ app.use(express.urlencoded({extended: true}));
 const whitelist = ['https://camille-lecoq.com', 'https://accounts.google.com', 'https://api2.camille-lecoq.com', "2a09:bac3:347d:1c82::2d7:76"]
 const corsOptions = {
     origin: function (origin, callback) {
-        console.log(origin)
+        if (origin === undefined) {
+            callback(null, true)
+        }
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true)
         } else {
