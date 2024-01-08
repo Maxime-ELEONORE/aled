@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - my_network
+
+
+#  mongo-express:
+#    image: mongo-express
+#    restart: always
+#    environment:
+#      ME_CONFIG_MONGODB_SERVER: mongodb
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: pass
+#    depends_on:
+#      - mongodb
+#    networks:
+#      - my_network
+
+
+  express-app:
+    image: tydaks/express-app-image:latest
+    environment:
+      COIN_GUEKO_API_KEY: CG-Q1bJd5mxtq8WNGxEe1cRayem
+      COIN_GUEKO_API_KEY2: CG-pqaSge1zng3d43AMkrMk1Meq
+      COIN_GUEKO_API_KEY3: CG-Qjjk1BV1UZ17J5BrJfSSpYAK
+      MONGODB_URI: mongodb://admin:pass@mongodb:27017
+#      GOOGLE_CLIENT_ID: 144285600316-9dt1f372ilaedt4a5p65eh1ir7oaimaq.apps.googleusercontent.com
+#      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_CLIENT_ID: 2320339253-4vl78i8rnficvf2er06lo9ab5isrmu63.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      SESSION_SECRET: super_la_session_secrete
+      PORT: 4000
+    depends_on:
+      - mongodb
+    networks:
+      - my_network
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8081"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - express-app
+    networks:
+      - my_network
+
+volumes:
+  mongodb_data:
+
+networks:
+  my_network:
